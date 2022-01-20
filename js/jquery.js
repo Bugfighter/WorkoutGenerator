@@ -34,6 +34,7 @@
             };
     } else {
         factory( global );
+        factory( global );
     }
 
 // Pass this if window is not defined yet
