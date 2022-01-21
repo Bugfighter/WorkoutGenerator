@@ -7,6 +7,15 @@
     <script src="js/jquery.js"></script>
     <script src="js/jquery-csv.js"></script>
     <style>
+        .btn-check:active+.btn-outline-primary,
+        .btn-check:checked+.btn-outline-primary,
+        .btn-outline-primary.active,
+        .btn-outline-primary.dropdown-toggle.show,
+        .btn-outline-primary:active {
+            color: #fff;
+            background-color: #ff6600;
+            border-color: #ff6600;
+        }
         .btn-primary {
             background-color:#ff6600;
             border-color: #ff6600;        }
@@ -22,7 +31,11 @@
         .btn-primary:active:focus {
             box-shadow: 0 0 0 0.25rem #ff660050;
         }
-
+        .nodeco{
+        padding: 0;
+        border: none;
+        background: none;
+        }
     </style>
 <!--    <script-->
 <!--        src="https://code.jquery.com/jquery-3.6.0.js"-->
@@ -32,15 +45,14 @@
 
 </head>
 <body>
-    <div class="d-flex p-2 d-flex flex-column justify-content-center align-items-center ">
+    <div class="d-flex p-2 flex-column justify-content-center align-items-center ">
         <button  type="button" class="btn btn-primary btn-lg" style="width: 100%"> Generate Workout</button>
-            <div id="workoutplan">
-<!--                <span>WARMUP </span>-->
-<!--                <div class="float-end form-check form-checkmark bd-highlight ">-->
-<!--                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">-->
-<!--                </div> -->
+    </div>
 
-            </div>
+    <div class="d-flex flex-wrap p-3 flex-column justify-content-start">
+        <table id="workoutplan" >
+
+        </table>
 
     </div>
 
@@ -53,48 +65,44 @@
     var WorkoutCsv ;
     var uebungenCSV ;
     $(document).ready(function(){
-        fillCsvArray();
-
+        loadWorkout();
         $("button").click(function(){
             generateNew();
-            fillCsvArray()
         });
 
     });
-
-    function fillCsvArray() {
-        $.get("csv/Workout.csv", function(data, status){WorkoutCsv = data;loadWorkout(); });
-        $.get("csv/Uebungen.csv", function(data, status){uebungenCSV = data; });
-    }
-
     function generateNew() {
-        $.get("Controller/ajax.php?action=writeNewWorkout");
+        $.get("Controller/ajax.php?action=writeNewWorkout",function () {
+            loadWorkout();
+        });
     }
 
     function loadWorkout() {
+
         $.getJSON("Controller/ajax.php?action=getWorkout",function (data) {
+            console.log(data);
             var div = $("#workoutplan");
-            div.html("");
-            var oldhtml=div.html();
-            $("#workoutplan").html(oldhtml+"<div>"+data+"</div>");
+            div.html("<table>");
+            var descCounter = 0;
+            var oldhtml ="";
+            $.each(data, function( index, value ) {
+                descCounter++;
+                oldhtml = div.html();
+                oldhtml = oldhtml + "<tr>"
+                    + "<td><h2>" + value[0]+": </h2></td> "
+                    + "<td><button data-toggle='collapse' data-target='#descCollapse"+ descCounter +"' class='nodeco'><h2> " + value[1]+"</h2></button></td>"
+                    + "<td><input type='checkbox' class='btn-check' id='btncheck"+descCounter+"' autocomplete='off'> "
+                    + "<label class='btn btn-outline-primary' for='btncheck"+descCounter+"'>Erledigt</label><br></td>"
+                    + "<tr class='collapse' id='descCollapse"+ descCounter +"'> <td colspan='3'> <p>"+value[2]+"</P> </td></tr>"
+                    + "</tr>";
+                div.html(oldhtml);
+            });
         });
-        // $("#workoutplan").html(oldhtml+"<div>:"+ValueArray[1]+"</div>");
-        //
-        // var div = $("#workoutplan");
-        // div.html("");
-        // var csvarray = $.csv.toArrays(WorkoutCsv,{"seperator" : ";"});
-        //
-        // $.each(csvarray, function( index, value ) {
-        //     var string = ""+value;
-        //     var ValueArray = string.match(/(;+)\.(;+)/);;
-        //     var oldhtml=div.html();
-        //     $("#workoutplan").html(oldhtml+"<div>:"+ValueArray[1]+"</div>");
-        // });
     }
 
     function renderTabels() {
 
-    }
+    }                                             
 </script>
 </html>
 

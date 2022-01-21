@@ -2,9 +2,10 @@
 switch($_GET['action']) {
    case 'writeNewWorkout':
        writeNewWorkout();
+       echo getWorkout();
        break;
    case 'getWorkout':
-       getWorkout();
+       echo getWorkout();
        break;
    default:
        return;
@@ -14,47 +15,52 @@ function writeNewWorkout()
 {
     $uebungsArray = getUebungen();
     $workoutArray = getRandomWorkout($uebungsArray);
-    $csvString = "";
-    foreach ($workoutArray as $type => $workout){
-      $csvString.= "{$type};".$workout['UEBUNG'].";".$workout['DESC']."\n";
+    $csvFile=fopen("../csv/Workout.csv","w");
+    foreach ($workoutArray as  $key =>$workout){
+        fputcsv($csvFile,[$key,$workout[0],$workout[1]],";"," ");
     }
-    file_put_contents("../csv/Workout.csv",$csvString);
+    fclose($csvFile);
 }
 
 function getRandomWorkout($array){
-    $workoutArray=[];
-    foreach ($array as $type=>$uebung){
-        $section = array_rand($uebung);
+    $workoutType =[];
+    foreach ($array as $row){
+        $workoutType[$row[0]][] = [$row[1],$row[2]];
+    }
 
+    $workoutArray=[];
+    foreach ($workoutType as $type=>$uebung){
+        $section = array_rand($uebung);
         $workoutArray[$type]=$uebung[$section];
     }
+    
     return $workoutArray;
 }
 
 function getUebungen(){
-    $stringCsv = file_get_contents("../csv/Uebungen.csv");
-    $lines = explode(PHP_EOL, $stringCsv);
-    $uebungsArray = [];
-    getLines();
-    foreach ($lines as $line) {
-        $arrayLine = str_getcsv($line);
-        $uebungsArray[$arrayLine[0]][]= ["UEBUNG" => $arrayLine[1], "DESC" => $arrayLine[2]];
-    }
-    return $uebungsArray;
+
+    $csvFile=fopen("../csv/Uebungen.csv","r");
+    $array=getLines($csvFile);
+    fclose($csvFile);
+    return $array;
 }
 
 function getWorkout(){
-    $stringCsv = file_get_contents("../csv/Workout.csv");
-    $lines = explode(PHP_EOL, $stringCsv);
-    $array = getLines($lines);
-    echo json_encode($array);;
+    $csvFile=fopen("../csv/Workout.csv","r");
+    $array = getLines($csvFile);
+    fclose($csvFile);
+    ob_start();
+    print_r(json_encode($array));
+    error_log(ob_get_contents());
+    ob_end_clean();
+    return json_encode($array);
 }
-function getLines(){
-    $arrayLine=[];
-    foreach ($lines as $line) {
-        $arrayLine[] = str_getcsv($line);
-    }
 
-    return $arrayLine;
+function getLines($csvFile){
+    $arrayLines=[];
+    while ($data = fgetcsv($csvFile,0,";")) {
+        $arrayLines[]=$data;
+    }
+    return $arrayLines;
 }
 
