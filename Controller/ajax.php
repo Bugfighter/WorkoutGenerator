@@ -1,5 +1,8 @@
 <?php
 switch($_GET['action']) {
+    case 'getFileAge':
+        echo getFileAge();
+        break;
    case 'writeNewWorkout':
        writeNewWorkout();
        echo getWorkout();
@@ -45,14 +48,13 @@ function getUebungen(){
     return $array;
 }
 
+function getFileAge(){
+   return date ("d-m-Y H:i:s.", filemtime("../csv/Workout.csv"));
+}
 function getWorkout(){
     $csvFile=fopen("../csv/Workout.csv","r");
     $array = getLines($csvFile);
     fclose($csvFile);
-    ob_start();
-    print_r(json_encode($array));
-    error_log(ob_get_contents());
-    ob_end_clean();
     return json_encode($array);
 }
 
