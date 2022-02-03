@@ -42,16 +42,13 @@
         .btn-primary:active:focus {
             box-shadow: 0 0 0 0.25rem #ff660050;
         }
-        .nodeco{
-        padding: 0;
-        border: none;
-        background: none;
-        }
+       
     </style>
-<!--    <script-->
+<!--<script-->
 <!--        src="https://code.jquery.com/jquery-3.6.0.js"-->
 <!--        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="-->
-<!--        crossorigin="anonymous"></script>-->
+<!--        crossorigin="anonymous">-->
+<!--</script>-->
 
 
 </head>
@@ -71,7 +68,7 @@
     <div class="d-flex p-2 flex-column justify-content-center align-items-center ">
     <button  type="button" class="btn btn-primary btn-lg" style="width: 100%" onclick="darkmode()"> DarkMode</button>
     </div>
-            <textarea hidden id="toClipboard"></textarea>
+            <textarea  id="toClipboard"></textarea>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
@@ -101,7 +98,6 @@
             $.getJSON("Controller/ajax.php?action=getWorkout",function (data) {
             console.log(data);
             var div = $("#workoutplan");
-            var clipboard = $("#toClipboard");
             div.html("<table>");
             var descCounter = 0;
             var oldhtml ="";
@@ -110,7 +106,6 @@
                 if(skipFirst){
                     skipFirst=false;
                     return;
-
                 }
                 descCounter++;
                 oldhtml = div.html();
@@ -121,7 +116,19 @@
                     + "</tr>";
                 div.html(oldhtml);
             });
-        });
+                var clipboard = $("#toClipboard");
+                var clipboardText ="";
+                skipFirst = true;
+                $.each(data, function( index, value ) {
+                    if(skipFirst){
+                        skipFirst=false;
+                        return;
+                    }
+                       clipboardText = clipboardText +"Typ: "+value[0] +"\nName: "+value[1]+"\nBeschreibung : " + value[2] +"\n";
+
+            });
+                clipboard.html(clipboardText);
+            });
     }
 
     function darkmode() {
