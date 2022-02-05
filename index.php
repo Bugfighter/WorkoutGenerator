@@ -1,9 +1,8 @@
-<?php
-
-     ?>
 <html>
 <head>
     <title>Workout Generator</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="js/jquery.js"></script>
     <script src="js/jquery-csv.js"></script>
@@ -26,7 +25,7 @@
 </head>
 <body>
     <div class="d-flex p-2 flex-column justify-content-center align-items-center ">
-        <button id="generate" type="button" class="btn btn-primary btn-lg" style="width: 100%"> Generate Workout</button>
+        <h1>Workout Generator</h1>
     </div>
     <div class="d-flex p-2 flex-column justify-content-center align-items-center ">
         <div id="fileAge"></div>
@@ -35,7 +34,9 @@
         <table id="workoutplan" >
 
         </table>
-
+    </div>
+    <div class="d-flex p-2 flex-column justify-content-center align-items-center ">
+        <button id="generate" type="button" class="btn btn-primary btn-lg" style="width: 100%"> Generate Workout</button>
     </div>
     <div class="d-flex p-2 flex-column justify-content-center align-items-center ">
         <button  type="button" class="btn btn-primary btn-lg" style="width: 100%" onclick="darkmode()"> DarkMode</button>
@@ -87,8 +88,8 @@
                 descCounter++;
                 oldhtml = div.html();
                 oldhtml = oldhtml + "<tr>"
-                    + "<td><h2>" + value[0]+": </h2></td> "
-                    + "<td><button data-toggle='collapse' data-target='#descCollapse"+ descCounter +"' class='btn btn-primary'><h2> " + value[1]+"</h2></button></td>"
+                    + "<td>" + value[0]+": </td> "
+                    + "<td><button data-toggle='collapse' data-target='#descCollapse"+ descCounter +"' class='btn btn-secondary'>" + value[1]+"</button></td>"
                     + "<tr class='collapse' id='descCollapse"+ descCounter +"'> <td colspan='2'> <p>"+value[2]+"</P> </td></tr>"
                     + "</tr>";
                 div.html(oldhtml);
