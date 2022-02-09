@@ -10,6 +10,9 @@ switch($_GET['action']) {
    case 'getWorkout':
        echo getWorkout();
        break;
+   case 'getUebungen':
+       echo getUebungen();
+       break;
    default:
        return;
 }
