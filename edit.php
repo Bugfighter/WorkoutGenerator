@@ -43,26 +43,25 @@
 
 
 </textarea>
-              <script>
-                  $.getJSON("Controller/ajax.php?action=getUebungen",function (data) {
-                      console.log(data);
-                      var div = $("#csvTextArea");
-                      div.html("<table>");
-                      var skipFirst = true;
+<button onclick="sendToFIle()">SEND </button>
+<script>
+    var uebungen ="";
+    var uebungenNew ="";
+  $.getJSON("Controller/ajax.php?action=getUebungen",function (data) {
+      console.log(data);
+      var div = $("#csvTextArea");
+      div.html("<table>");
 
-                      var clipboard = $("#toClipboard");
-                      var clipboardText ="";
-                      skipFirst = true;
-                      $.each(data, function( index, value ) {
-                          if(skipFirst){
-                              skipFirst=false;
-                              clipboardText = clipboardText +DATEWorkout+"\n";
-                              return;
-                          }
-                          clipboardText = clipboardText +"*"+value[1]+"*" +"("+value[2]+")\n";
+      $.each(data, function( index, value ) {
+          uebungen = uebungen +value[0]+";"+value[1]+";"+value[2]+";\n";
+      });
+      div.html(uebungen);
+  });
 
-                      });
-                      clipboard.html(clipboardText);
-                  });
-              </script>
+  function sendToFIle() {
+      var textarea = $("#csvTextArea").html;
+      uebungenNew  = textarea.html();
+      $.post( "Controller/ajax.php?action=writeUebungen", { csvstring: uebungenNew } );
+  }
+</script>
 </body>
