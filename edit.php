@@ -36,32 +36,54 @@
     </style>
 </head>
 <body>
-<div class="d-flex p-2 flex-column justify-content-center align-items-center ">
+<div class="d-flex p-2 flex-column justify-content-center ">
     <h1>Workout Generator</h1>
-</div>
-<textarea id="csvTextArea" style="width: 100%">
+
+<textarea style="" id="csvTextArea" class="form-control"  style="width: 100%">
 
 
 </textarea>
-<button onclick="sendToFIle()">SEND </button>
-<script>
+    <div class="d-flex p-2 flex-row justify-content-between  align-items-center ">
+        <button class="  btn btn-primary" id="sendButton" onclick="sendToFIle()">SAVE </button>
+        <a class="  btn btn-primary "href="index.php" > Back to Generator</a>
+    </div>
+
+</div><script>
     var uebungen ="";
     var uebungenNew ="";
-  $.getJSON("Controller/ajax.php?action=getUebungen",function (data) {
+    var textarea = $("#csvTextArea");
+    $(document).ready(function(){
+
+    });
+
+    $("#sendButton").click(function(){
+        sendToFIle();
+    });
+    setTimeout(setheight, 500)
+     function setheight(){
+         textarea.focus();
+     }
+
+    $.getJSON("Controller/ajax.php?action=getUebungen",function (data) {
       console.log(data);
-      var div = $("#csvTextArea");
-      div.html("<table>");
+        textarea.html("<table>");
 
       $.each(data, function( index, value ) {
           uebungen = uebungen +value[0]+";"+value[1]+";"+value[2]+";\n";
       });
-      div.html(uebungen);
-  });
+        textarea.html(uebungen);
+     });
 
-  function sendToFIle() {
-      var textarea = $("#csvTextArea").html;
-      uebungenNew  = textarea.html();
+    
+    textarea.on("focus", function() {
+        this.style.height = "auto";
+        this.style.height = (this.scrollHeight) + "px";
+    });
+
+
+    function sendToFIle() {
+      uebungenNew = textarea.val();
       $.post( "Controller/ajax.php?action=writeUebungen", { csvstring: uebungenNew } );
-  }
+    }
 </script>
 </body>
