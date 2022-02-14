@@ -10,6 +10,12 @@ switch($_GET['action']) {
    case 'getWorkout':
        echo getWorkout();
        break;
+   case 'getUebungen':
+       echo json_encode(getUebungen());
+       break;
+   case 'writeUebungen':
+       echo writeUebungen($_POST["csvstring"]);
+       break;
    default:
        return;
 }
@@ -18,7 +24,7 @@ function writeNewWorkout()
 {
     $uebungsArray = getUebungen();
     $workoutArray = getRandomWorkout($uebungsArray);
-    $csvFile=fopen("../csv/Workout.csv","w");
+    $csvFile = fopen("../csv/Workout.csv","w");
     foreach ($workoutArray as  $key =>$workout){
         fputcsv($csvFile,[$key,$workout[0],$workout[1]],";"," ");
     }
@@ -44,6 +50,14 @@ function getUebungen(){
 
     $csvFile=fopen("../csv/Uebungen.csv","r");
     $array=getLines($csvFile);
+    fclose($csvFile);
+    return $array;
+}
+
+function writeUebungen($string){
+
+    $csvFile=fopen("../csv/Uebungen.csv","w+");
+    fwrite($csvFile,$string);
     fclose($csvFile);
     return $array;
 }

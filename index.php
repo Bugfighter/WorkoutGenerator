@@ -56,6 +56,9 @@
         <button id="copy-to-clipboard-button" type="button" class="btn btn-primary btn-lg" style="width: 100%" > Copy to clipboard</button>
         <textarea  style="opacity: .01;height:0;position:absolute;z-index: -1; " id="toClipboard"></textarea>
     </div>
+    <div class="d-flex p-2 flex-column justify-content-center align-items-center ">
+        <a class="btn btn-primary btn-lg" style="width: 100%" href="edit.php" > EDIT</a>
+    </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
