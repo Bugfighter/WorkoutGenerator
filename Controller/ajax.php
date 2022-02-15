@@ -31,7 +31,7 @@ function writeNewWorkout()
 //    }
 //    fclose($csvFile);
     $_SESSION["workout"]["uebungen"]=[];
-    $_SESSION["workout"]["date"] = date ("d.m.Y H:i:s.");
+    $_SESSION["workout"]["date"] = date ("d.m.Y H:i:s");
     foreach ($workoutArray as  $key =>$workout){
         $_SESSION["workout"]["uebungen"][] = $key.";".$workout[0].";".$workout[1];
     }
@@ -46,7 +46,7 @@ function getRandomWorkout($array){
     $workoutArray=[];
     foreach ($workoutType as $type=>$uebung){
         $section = array_rand($uebung);
-        $workoutArray[$type]=$uebung[$section];
+        $workoutArray[$type] = $uebung[$section];
     }
     
     return $workoutArray;
@@ -74,7 +74,10 @@ function writeUebungen($string){
 }
 
 function getFileAge(){
-   return date ("d.m.Y H:i:s.", filemtime("../csv/Workout.csv"));
+        if(isset($_SESSION["workout"])){
+            return $_SESSION["workout"]["date"];
+        }
+        return false;
 }
 
 function getWorkout(){

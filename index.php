@@ -44,12 +44,12 @@
     }
 
     function loadWorkout() {
-        var DATEWorkout = "<?= (isset($_SESSION["workout"]))? $_SESSION["workout"]["date"]:'' ?>";
-        // $.get("Controller/ajax.php?action=getFileAge",function (data) {
-        //     $("#fileAge").html("Das Workout wurde am "+data+" erstellt");
-        //     DATEWorkout = data;
-        //     console.log(data);
-        // });
+        var DATEWorkout = "";
+        $.get("Controller/ajax.php?action=getFileAge",function (data) {
+            $("#fileAge").html("Das Workout wurde am "+data+" erstellt");
+            DATEWorkout = data;
+            console.log(data);
+        });
 
             $.getJSON("Controller/ajax.php?action=getWorkout",function (data) {
             console.log(data);
