@@ -68,7 +68,7 @@ function writeUebungen($string){
     if($success === false){
         $success = "Daten nicht gespeichert error beim fwrite";
     }else{
-        $success = "Daten erfolgreich Gespeichert";
+        $success = "Daten erfolgreich gespeichert";
     }
     return $success;
 }
