@@ -16,14 +16,14 @@
         <button id="generate" type="button" class="btn btn-primary btn-lg" style="width: 100%"> Generate Workout</button>
     </div>
     <div class="d-flex p-2 flex-column justify-content-center align-items-center ">
-        <button  type="button" class="btn btn-primary btn-lg" style="width: 100%" onclick="darkmode()"> DarkMode</button>
+        <button  type="button" class="btn btn-secondary btn-lg" style="width: 100%" onclick="darkmode()"> DarkMode</button>
     </div>
     <div class="d-flex p-2 flex-column justify-content-center align-items-center ">
-        <button id="copy-to-clipboard-button" type="button" class="btn btn-primary btn-lg" style="width: 100%" > Copy to clipboard</button>
+        <button id="copy-to-clipboard-button" type="button" class="btn btn-secondary btn-lg" style="width: 100%" > Copy to clipboard</button>
         <textarea  style="opacity: .01;height:0;position:absolute;z-index: -1; " id="toClipboard"></textarea>
     </div>
     <div class="d-flex p-2 flex-column justify-content-center align-items-center ">
-        <a class="btn btn-primary btn-lg" style="width: 100%" href="edit.php" > EDIT</a>
+        <a class="btn btn-secondary btn-lg" style="width: 100%" href="edit.php" > EDIT</a>
     </div>
 </body>
 <script type="text/javascript">
@@ -46,9 +46,11 @@
     function loadWorkout() {
         var DATEWorkout = "";
         $.get("Controller/ajax.php?action=getFileAge",function (data) {
-            $("#fileAge").html("Das Workout wurde am "+data+" erstellt");
-            DATEWorkout = data;
-            console.log(data);
+            if(data !== ""){
+                $("#fileAge").html("Das Workout wurde am "+data+" erstellt");
+                DATEWorkout = data;
+                console.log(data);
+            }
         });
 
             $.getJSON("Controller/ajax.php?action=getWorkout",function (data) {
