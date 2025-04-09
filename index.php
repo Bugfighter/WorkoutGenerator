@@ -83,7 +83,7 @@
                         clipboardText = clipboardText +DATEWorkout+"\n";
                         return;
                     }
-                       clipboardText = clipboardText +"*"+value[1]+"*" +"("+value[2]+")\n";
+                       clipboardText = clipboardText+"*"+value[1].trim()+"*" +"("+value[2]+")\n";
 
             });
                 clipboard.html(clipboardText);
